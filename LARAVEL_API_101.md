@@ -61,8 +61,7 @@ cd film-api
 
 ### Adım 2: Veritabanı Ayarları
 ```bash
-# .env dosyasını kopyala
-cp .env.example .env
+
 
 # .env dosyasını düzenle (MySQL için)
 DB_CONNECTION=mysql
@@ -70,7 +69,7 @@ DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=sinema_db
 DB_USERNAME=root
-DB_PASSWORD=348282
+DB_PASSWORD=
 ```
 
 **Ne oldu?** Veritabanı bağlantı bilgileri ayarlandı.
