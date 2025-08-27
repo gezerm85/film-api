@@ -1,6 +1,6 @@
 # 🚀 Laravel API Oluşturma - 101 Rehberi
 
-> **Bu rehber, hiç Laravel bilmeyen birinin bile adım adım takip ederek API oluşturabilmesi için yazılmıştır.**
+
 
 ---
 
