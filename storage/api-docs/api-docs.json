@@ -1,0 +1,1209 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Sinema API",
+        "description": "Film, tür, kişi ve oyuncu yönetimi için RESTful API",
+        "contact": {
+            "name": "API Geliştirici",
+            "email": "developer@example.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api",
+            "description": "Local API Server"
+        }
+    ],
+    "paths": {
+        "/filmler": {
+            "get": {
+                "tags": [
+                    "Filmler"
+                ],
+                "summary": "Tüm filmleri listele",
+                "description": "Veritabanındaki tüm filmleri tür ve oyuncu bilgileriyle birlikte getirir",
+                "operationId": "1e1d05a9b1f9ec5a0851deef90507e85",
+                "responses": {
+                    "200": {
+                        "description": "Başarılı",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Film"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Filmler"
+                ],
+                "summary": "Yeni film ekle",
+                "description": "Veritabanına yeni bir film ekler",
+                "operationId": "3c665a18e9bd6c091b1d4e93e132baf8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "adi",
+                                    "konusu",
+                                    "tur_id"
+                                ],
+                                "properties": {
+                                    "adi": {
+                                        "description": "Film adı",
+                                        "type": "string",
+                                        "example": "The Matrix"
+                                    },
+                                    "konusu": {
+                                        "description": "Film konusu",
+                                        "type": "string",
+                                        "example": "Bir bilgisayar programcısı..."
+                                    },
+                                    "imdb_puani": {
+                                        "description": "IMDB puanı (0-10 arası)",
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 8.7
+                                    },
+                                    "tur_id": {
+                                        "description": "Tür ID'si",
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Film başarıyla oluşturuldu",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Film"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Doğrulama hatası"
+                    }
+                }
+            }
+        },
+        "/filmler/{id}": {
+            "get": {
+                "tags": [
+                    "Filmler"
+                ],
+                "summary": "Belirli filmi getir",
+                "description": "ID'ye göre belirli bir filmi tür ve oyuncu bilgileriyle birlikte getirir",
+                "operationId": "ba209f8bccd09c8d78e07b3fdec9cffd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Film ID'si",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Başarılı",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Film"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Film bulunamadı"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Filmler"
+                ],
+                "summary": "Film güncelle",
+                "description": "Belirli bir filmin bilgilerini günceller",
+                "operationId": "74398edc8d7c8d6ccda901ece91f8f99",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Film ID'si",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "adi",
+                                    "konusu",
+                                    "tur_id"
+                                ],
+                                "properties": {
+                                    "adi": {
+                                        "description": "Film adı",
+                                        "type": "string",
+                                        "example": "The Matrix"
+                                    },
+                                    "konusu": {
+                                        "description": "Film konusu",
+                                        "type": "string",
+                                        "example": "Bir bilgisayar programcısı..."
+                                    },
+                                    "imdb_puani": {
+                                        "description": "IMDB puanı (0-10 arası)",
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 8.7
+                                    },
+                                    "tur_id": {
+                                        "description": "Tür ID'si",
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Film başarıyla güncellendi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Film"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Film bulunamadı"
+                    },
+                    "422": {
+                        "description": "Doğrulama hatası"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Filmler"
+                ],
+                "summary": "Film sil",
+                "description": "Belirli bir filmi veritabanından siler",
+                "operationId": "5b1dfe8101c7213abd2dbc9bfb234268",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Film ID'si",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Film başarıyla silindi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Film başarıyla silindi"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Film bulunamadı"
+                    }
+                }
+            }
+        },
+        "/filmler/tur/{tur_id}": {
+            "get": {
+                "tags": [
+                    "Filmler"
+                ],
+                "summary": "Türe göre filmleri listele",
+                "description": "Belirli bir türe ait filmleri getirir",
+                "operationId": "29c5f7b6397d70adbde65d480c959ee8",
+                "parameters": [
+                    {
+                        "name": "tur_id",
+                        "in": "path",
+                        "description": "Tür ID'si",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Başarılı",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Film"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/filmler/search/{query}": {
+            "get": {
+                "tags": [
+                    "Filmler"
+                ],
+                "summary": "Film ara",
+                "description": "Film adı veya konusuna göre arama yapar",
+                "operationId": "1d159e8b2154e1df34a07b736deff15c",
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "path",
+                        "description": "Arama terimi",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Matrix"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Başarılı",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Film"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/kisiler": {
+            "get": {
+                "tags": [
+                    "Kişiler"
+                ],
+                "summary": "Tüm kişileri listele",
+                "description": "Veritabanındaki tüm kişileri (oyuncu, yönetmen vs.) getirir",
+                "operationId": "7ae244487d3e2b0d2f8bee45a97f1052",
+                "responses": {
+                    "200": {
+                        "description": "Başarılı",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Kisi"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Kişiler"
+                ],
+                "summary": "Yeni kişi ekle",
+                "description": "Veritabanına yeni bir kişi (oyuncu, yönetmen vs.) ekler",
+                "operationId": "35f01d8a4fcff50fa35a926bc8ef46e3",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "adi"
+                                ],
+                                "properties": {
+                                    "adi": {
+                                        "description": "Kişi adı",
+                                        "type": "string",
+                                        "example": "Keanu Reeves"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Kişi başarıyla oluşturuldu",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Kisi"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Doğrulama hatası"
+                    }
+                }
+            }
+        },
+        "/kisiler/{id}": {
+            "get": {
+                "tags": [
+                    "Kişiler"
+                ],
+                "summary": "Belirli kişiyi getir",
+                "description": "ID'ye göre belirli bir kişiyi getirir",
+                "operationId": "9ca8b69a2aafb77d365d1609e2ccc888",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Kişi ID'si",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Başarılı",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Kisi"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Kişi bulunamadı"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Kişiler"
+                ],
+                "summary": "Kişi güncelle",
+                "description": "Belirli bir kişinin bilgilerini günceller",
+                "operationId": "8cef6ce8c043bb8e4e422e98902bdc83",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Kişi ID'si",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "adi"
+                                ],
+                                "properties": {
+                                    "adi": {
+                                        "description": "Kişi adı",
+                                        "type": "string",
+                                        "example": "Keanu Reeves"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Kişi başarıyla güncellendi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Kisi"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Kişi bulunamadı"
+                    },
+                    "422": {
+                        "description": "Doğrulama hatası"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Kişiler"
+                ],
+                "summary": "Kişi sil",
+                "description": "Belirli bir kişiyi veritabanından siler",
+                "operationId": "259bdb940bd9ad86e8d876b596f01c37",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Kişi ID'si",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Kişi başarıyla silindi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Kişi başarıyla silindi"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Kişi bulunamadı"
+                    }
+                }
+            }
+        },
+        "/oyuncular": {
+            "get": {
+                "tags": [
+                    "Oyuncular"
+                ],
+                "summary": "Tüm oyuncuları listele",
+                "description": "Veritabanındaki tüm oyuncu-film ilişkilerini getirir",
+                "operationId": "d446ad564d3ae4692ae4460b84ebbf9b",
+                "responses": {
+                    "200": {
+                        "description": "Başarılı",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Oyuncu"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Oyuncular"
+                ],
+                "summary": "Yeni oyuncu ekle",
+                "description": "Veritabanına yeni bir oyuncu-film ilişkisi ekler",
+                "operationId": "ee7036ab9f47f549c725645875874555",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "film_id",
+                                    "kisi_id"
+                                ],
+                                "properties": {
+                                    "film_id": {
+                                        "description": "Film ID'si",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "kisi_id": {
+                                        "description": "Kişi ID'si",
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Oyuncu başarıyla eklendi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Oyuncu"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Doğrulama hatası"
+                    }
+                }
+            }
+        },
+        "/oyuncular/{id}": {
+            "get": {
+                "tags": [
+                    "Oyuncular"
+                ],
+                "summary": "Belirli oyuncuyu getir",
+                "description": "ID'ye göre belirli bir oyuncu-film ilişkisini getirir",
+                "operationId": "bffa9460dd1d4dc05721622785f07ced",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Oyuncu ID'si",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Başarılı",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Oyuncu"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Oyuncu bulunamadı"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Oyuncular"
+                ],
+                "summary": "Oyuncu güncelle",
+                "description": "Belirli bir oyuncu-film ilişkisini günceller",
+                "operationId": "36d6ca873c116bf5be80cc9938e3ca2e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Oyuncu ID'si",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "film_id",
+                                    "kisi_id"
+                                ],
+                                "properties": {
+                                    "film_id": {
+                                        "description": "Film ID'si",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "kisi_id": {
+                                        "description": "Kişi ID'si",
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Oyuncu başarıyla güncellendi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Oyuncu"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Oyuncu bulunamadı"
+                    },
+                    "422": {
+                        "description": "Doğrulama hatası"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Oyuncular"
+                ],
+                "summary": "Oyuncu sil",
+                "description": "Belirli bir oyuncu-film ilişkisini veritabanından siler",
+                "operationId": "865d5e6282dff5153a6485c3bfadd52f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Oyuncu ID'si",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Oyuncu başarıyla silindi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Oyuncu başarıyla silindi"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Oyuncu bulunamadı"
+                    }
+                }
+            }
+        },
+        "/turler": {
+            "get": {
+                "tags": [
+                    "Türler"
+                ],
+                "summary": "Tüm türleri listele",
+                "description": "Veritabanındaki tüm film türlerini getirir",
+                "operationId": "2d9cef559cf62d53e6a13f8abd1eefc5",
+                "responses": {
+                    "200": {
+                        "description": "Başarılı",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Tur"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Türler"
+                ],
+                "summary": "Yeni tür ekle",
+                "description": "Veritabanına yeni bir film türü ekler",
+                "operationId": "68820404490b9855d520a6fae79a7165",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "adi"
+                                ],
+                                "properties": {
+                                    "adi": {
+                                        "description": "Tür adı",
+                                        "type": "string",
+                                        "example": "Aksiyon"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tür başarıyla oluşturuldu",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Tur"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Doğrulama hatası"
+                    }
+                }
+            }
+        },
+        "/turler/{id}": {
+            "get": {
+                "tags": [
+                    "Türler"
+                ],
+                "summary": "Belirli türü getir",
+                "description": "ID'ye göre belirli bir film türünü getirir",
+                "operationId": "cc98978ea99019c327059eb15f2c73f1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Tür ID'si",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Başarılı",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Tur"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tür bulunamadı"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Türler"
+                ],
+                "summary": "Tür güncelle",
+                "description": "Belirli bir film türünün bilgilerini günceller",
+                "operationId": "23194461677df1f2d5694f1b5cb65287",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Tür ID'si",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "adi"
+                                ],
+                                "properties": {
+                                    "adi": {
+                                        "description": "Tür adı",
+                                        "type": "string",
+                                        "example": "Aksiyon"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tür başarıyla güncellendi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Tur"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tür bulunamadı"
+                    },
+                    "422": {
+                        "description": "Doğrulama hatası"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Türler"
+                ],
+                "summary": "Tür sil",
+                "description": "Belirli bir film türünü veritabanından siler",
+                "operationId": "8d91166378d45d438701f02c05fc181c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Tür ID'si",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tür başarıyla silindi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tür başarıyla silindi"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tür bulunamadı"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Film": {
+                "title": "Film",
+                "description": "Film modeli",
+                "properties": {
+                    "id": {
+                        "description": "Benzersiz ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "adi": {
+                        "description": "Film adı",
+                        "type": "string",
+                        "example": "The Matrix"
+                    },
+                    "konusu": {
+                        "description": "Film konusu",
+                        "type": "string",
+                        "example": "Bir bilgisayar programcısı..."
+                    },
+                    "imdb_puani": {
+                        "description": "IMDB puanı",
+                        "type": "number",
+                        "format": "float",
+                        "example": 8.7
+                    },
+                    "tur_id": {
+                        "description": "Tür ID'si",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "tur": {
+                        "$ref": "#/components/schemas/Tur"
+                    },
+                    "oyuncular": {
+                        "description": "Film oyuncuları",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Oyuncu"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Kisi": {
+                "title": "Kişi",
+                "description": "Kişi modeli (oyuncu, yönetmen vs.)",
+                "properties": {
+                    "id": {
+                        "description": "Benzersiz ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "adi": {
+                        "description": "Kişi adı",
+                        "type": "string",
+                        "example": "Keanu Reeves"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Oyuncu": {
+                "title": "Oyuncu",
+                "description": "Film-kişi ilişki modeli",
+                "properties": {
+                    "id": {
+                        "description": "Benzersiz ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "film_id": {
+                        "description": "Film ID'si",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "kisi_id": {
+                        "description": "Kişi ID'si",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "film": {
+                        "$ref": "#/components/schemas/Film"
+                    },
+                    "kisi": {
+                        "$ref": "#/components/schemas/Kisi"
+                    }
+                },
+                "type": "object"
+            },
+            "Tur": {
+                "title": "Tür",
+                "description": "Film türü modeli",
+                "properties": {
+                    "id": {
+                        "description": "Benzersiz ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "adi": {
+                        "description": "Tür adı",
+                        "type": "string",
+                        "example": "Aksiyon"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-08-26T20:27:34.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-08-26T20:27:34.000000Z"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Filmler",
+            "description": "Filmler"
+        },
+        {
+            "name": "Kişiler",
+            "description": "Kişiler"
+        },
+        {
+            "name": "Oyuncular",
+            "description": "Oyuncular"
+        },
+        {
+            "name": "Türler",
+            "description": "Türler"
+        }
+    ]
+}

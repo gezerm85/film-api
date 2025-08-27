@@ -10,7 +10,19 @@ use Illuminate\Http\JsonResponse;
 class FilmController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/filmler",
+     *     summary="Tüm filmleri listele",
+     *     description="Veritabanındaki tüm filmleri tür ve oyuncu bilgileriyle birlikte getirir",
+     *     tags={"Filmler"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Başarılı",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Film"))
+     *         )
+     *     )
+     * )
      */
     public function index(): JsonResponse
     {
@@ -27,7 +39,33 @@ class FilmController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/filmler",
+     *     summary="Yeni film ekle",
+     *     description="Veritabanına yeni bir film ekler",
+     *     tags={"Filmler"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"adi", "konusu", "tur_id"},
+     *             @OA\Property(property="adi", type="string", example="The Matrix", description="Film adı"),
+     *             @OA\Property(property="konusu", type="string", example="Bir bilgisayar programcısı...", description="Film konusu"),
+     *             @OA\Property(property="imdb_puani", type="number", format="float", example=8.7, description="IMDB puanı (0-10 arası)"),
+     *             @OA\Property(property="tur_id", type="integer", example=1, description="Tür ID'si")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Film başarıyla oluşturuldu",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", ref="#/components/schemas/Film")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Doğrulama hatası"
+     *     )
+     * )
      */
     public function store(Request $request): JsonResponse
     {
@@ -43,7 +81,30 @@ class FilmController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/filmler/{id}",
+     *     summary="Belirli filmi getir",
+     *     description="ID'ye göre belirli bir filmi tür ve oyuncu bilgileriyle birlikte getirir",
+     *     tags={"Filmler"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Film ID'si",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Başarılı",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", ref="#/components/schemas/Film")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Film bulunamadı"
+     *     )
+     * )
      */
     public function show(string $id): JsonResponse
     {
@@ -60,7 +121,44 @@ class FilmController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/filmler/{id}",
+     *     summary="Film güncelle",
+     *     description="Belirli bir filmin bilgilerini günceller",
+     *     tags={"Filmler"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Film ID'si",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"adi", "konusu", "tur_id"},
+     *             @OA\Property(property="adi", type="string", example="The Matrix", description="Film adı"),
+     *             @OA\Property(property="konusu", type="string", example="Bir bilgisayar programcısı...", description="Film konusu"),
+     *             @OA\Property(property="imdb_puani", type="number", format="float", example=8.7, description="IMDB puanı (0-10 arası)"),
+     *             @OA\Property(property="tur_id", type="integer", example=1, description="Tür ID'si")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Film başarıyla güncellendi",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", ref="#/components/schemas/Film")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Film bulunamadı"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Doğrulama hatası"
+     *     )
+     * )
      */
     public function update(Request $request, string $id): JsonResponse
     {
@@ -78,7 +176,30 @@ class FilmController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/filmler/{id}",
+     *     summary="Film sil",
+     *     description="Belirli bir filmi veritabanından siler",
+     *     tags={"Filmler"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Film ID'si",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Film başarıyla silindi",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Film başarıyla silindi")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Film bulunamadı"
+     *     )
+     * )
      */
     public function destroy(string $id): JsonResponse
     {
@@ -88,7 +209,26 @@ class FilmController extends Controller
     }
 
     /**
-     * Türüne göre filmleri getir
+     * @OA\Get(
+     *     path="/filmler/tur/{tur_id}",
+     *     summary="Türe göre filmleri listele",
+     *     description="Belirli bir türe ait filmleri getirir",
+     *     tags={"Filmler"},
+     *     @OA\Parameter(
+     *         name="tur_id",
+     *         in="path",
+     *         required=true,
+     *         description="Tür ID'si",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Başarılı",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Film"))
+     *         )
+     *     )
+     * )
      */
     public function getByTur(string $tur_id): JsonResponse
     {
@@ -100,7 +240,26 @@ class FilmController extends Controller
     }
 
     /**
-     * Film ara
+     * @OA\Get(
+     *     path="/filmler/search/{query}",
+     *     summary="Film ara",
+     *     description="Film adı veya konusuna göre arama yapar",
+     *     tags={"Filmler"},
+     *     @OA\Parameter(
+     *         name="query",
+     *         in="path",
+     *         required=true,
+     *         description="Arama terimi",
+     *         @OA\Schema(type="string", example="Matrix")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Başarılı",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Film"))
+     *         )
+     *     )
+     * )
      */
     public function search(string $query): JsonResponse
     {

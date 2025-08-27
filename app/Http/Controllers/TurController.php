@@ -6,10 +6,39 @@ use App\Models\Tur;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * @OA\Info(
+ *     title="Sinema API",
+ *     version="1.0.0",
+ *     description="Film, tür, kişi ve oyuncu yönetimi için RESTful API",
+ *     @OA\Contact(
+ *         email="developer@example.com",
+ *         name="API Geliştirici"
+ *     )
+ * )
+ * 
+ * @OA\Server(
+ *     url="http://localhost:8000/api",
+ *     description="Local API Server"
+ * )
+ */
+
 class TurController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/turler",
+     *     summary="Tüm türleri listele",
+     *     description="Veritabanındaki tüm film türlerini getirir",
+     *     tags={"Türler"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Başarılı",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Tur"))
+     *         )
+     *     )
+     * )
      */
     public function index(): JsonResponse
     {
@@ -26,7 +55,30 @@ class TurController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/turler",
+     *     summary="Yeni tür ekle",
+     *     description="Veritabanına yeni bir film türü ekler",
+     *     tags={"Türler"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"adi"},
+     *             @OA\Property(property="adi", type="string", example="Aksiyon", description="Tür adı")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Tür başarıyla oluşturuldu",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", ref="#/components/schemas/Tur")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Doğrulama hatası"
+     *     )
+     * )
      */
     public function store(Request $request): JsonResponse
     {
@@ -39,7 +91,30 @@ class TurController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/turler/{id}",
+     *     summary="Belirli türü getir",
+     *     description="ID'ye göre belirli bir film türünü getirir",
+     *     tags={"Türler"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Tür ID'si",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Başarılı",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", ref="#/components/schemas/Tur")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Tür bulunamadı"
+     *     )
+     * )
      */
     public function show(string $id): JsonResponse
     {
@@ -56,7 +131,41 @@ class TurController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/turler/{id}",
+     *     summary="Tür güncelle",
+     *     description="Belirli bir film türünün bilgilerini günceller",
+     *     tags={"Türler"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Tür ID'si",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"adi"},
+     *             @OA\Property(property="adi", type="string", example="Aksiyon", description="Tür adı")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Tür başarıyla güncellendi",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", ref="#/components/schemas/Tur")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Tür bulunamadı"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Doğrulama hatası"
+     *     )
+     * )
      */
     public function update(Request $request, string $id): JsonResponse
     {
@@ -71,7 +180,30 @@ class TurController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/turler/{id}",
+     *     summary="Tür sil",
+     *     description="Belirli bir film türünü veritabanından siler",
+     *     tags={"Türler"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Tür ID'si",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Tür başarıyla silindi",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Tür başarıyla silindi")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Tür bulunamadı"
+     *     )
+     * )
      */
     public function destroy(string $id): JsonResponse
     {
